@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link href='http://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/tooltip.css">
+<link rel="stylesheet" href="tooltip.css">
 <style>
     body {
         font-family: Fenix, serif;
@@ -68,24 +67,24 @@
     }
 </style>
 <!-- <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css"> -->
-<script src="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/d3.v3.js"></script>
-<script src="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/topojson.v1.min.js"></script>
-<script src="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/colorbrewer.v1.min.js"></script>
-<script src="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/d3-tip.js"></script>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+<script src="d3-tip.js"></script>
 
 <body>
     <!-- <div class="d3-tip">
     </div> -->
     <div style="width: 900px;">
-        <div style="width: 900px;">
-        <div style="text-align:center;">
-            <h2>Felon Disenfranchisement by State, 2020</h2></div></div>
+        <!-- <div style="text-align:center;">
+            <h2>Felon Disenfranchisement by State, 2016</h2>
+        </div> -->
         <div id="map"></div>
-        Source: <a target="_blank" href="https://www.sentencingproject.org/publications/locked-out-2020-estimates-of-people-denied-voting-rights-due-to-a-felony-conviction/">The Sentencing Project</a></p>
+        <p style="float: right;">Source: <a target="_blank" href="http://www.sentencingproject.org/publications/6-million-lost-voters-state-level-estimates-felony-disenfranchisement-2016/">The Sentencing Project</a></p>
     </div>
 </body>
-<script src="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/map.js"></script>
-<script src="https://s3-us-west-1.amazonaws.com/art4stock.com/sentence1/rates2.js"></script>
+<script src="map.js"></script>
+<script src="rates.js"></script>
 <script>
     var rateById = d3.map();
     
@@ -143,7 +142,7 @@
     .on("mouseover", function(d) {
         var p = {
             abbr: "US",
-            rate: ".023"
+            rate: ".025"
         }
         pieAdjust(p);
     })
@@ -236,7 +235,7 @@
     .style("opacity", 0.4)
     
     var arcG = pieChart.selectAll(".arc")
-    .data(pie([.023, .975]))
+    .data(pie([.025, .975]))
     .enter().append("g")
     .attr("class", "arc")
     .attr("transform", "translate(" + pieWidth / 2 + "," + pieHeight / 2 + ")")

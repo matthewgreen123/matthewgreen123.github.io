@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href='http://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+<style>
+/*
+  body{
+    font-family: Fenix, serif;
+    font-size: 11;
+    /*width: 620px;*/
+  }*/
+
+  .background {
+    fill: none;
+    pointer-events: all;
+  }
+
+  #states {
+    fill: #aaa;
+  }
+
+  #states .active {
+    fill: orange;
+  }
+
+  #state-borders {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    pointer-events: none;
+  }
+
+
+</style>
+
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+
+
+<body>
+
+
+
+</body>
+
+<script src="map.js"></script>
+<script src="rates.js"></script>
+
+
+<script>
+
+var rateById = d3.map();
+
+rates.forEach(function(d) { rateById.set(d.id, +d.rate); });
+
+var color = d3.scale.ordinal().domain([5,4,3,2,1]).range(['rgb(254,237,222)','rgb(253,190,133)','rgb(253,141,60)','rgb(230,85,13)','rgb(166,54,3)'])
+
+var quantize = d3.scale.quantize()
+    .domain([0, .1])
+    .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
+
+var width = 960,
+  height = 500,
+  centered;
+
+var projection = d3.geo.albersUsa()
+    .scale(1070)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+
+var g = svg.append("g");
+
+  g.append("g")
+      .attr("id", "states")
+    .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+    .enter().append("path")
+      .attr("class", function(d) { return quantize(rateById.get(d.id)); })
+      .attr("d", path);
+
+  g.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);
+
+
+</script>
+
